@@ -1,0 +1,62 @@
+tasks:
+  help:
+    quiet: true
+    run: |
+      cat >/dev/stdout <<'EOF'
+      This repo only contains some basic dlang learning material by example.
+      I keep it updated with my latest experiments.
+
+      to bootstrap a new test:
+        tusk bootstrap NAME
+
+      to remove a test:
+        tusk purge NAME
+
+      to compile and execute a test:
+        tusk run NAME
+      EOF
+  bootstrap:
+    args:
+      name:
+        type: string
+
+    run:
+      - when:
+          - not-exists: ${name}
+        command:
+          - exec: mkdir ${name}
+          - exec: touch ${name}/main.d
+          - exec: |-
+              cat > ${name}/main.d <<'EOF'
+              import std.stdio;
+
+              void main() {
+                writeln("hello from ${name}");
+              }
+              EOF
+
+  purge:
+    args:
+      name:
+        type: string
+
+    run:
+      - when:
+          - exists: ${name}
+        command:
+          - exec: rm -rf ${name}
+
+  run:
+    args:
+      name:
+        type: string
+    run:
+      - when:
+          - exists: ${name}
+        command:
+          - exec: nl ${name}/*
+          - exec: ldc2 main.d -of=.build/main
+            dir: ${name}
+          - exec: exec ${name}/.build/main
+          - exec: echo $?
+            quiet: true
