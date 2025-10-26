@@ -20,43 +20,71 @@ tasks:
       name:
         type: string
 
+    options:
+      id:
+        type: int
+        default:
+          command: echo "$(find . -not -path '*/[@.]*' -type d | wc -l) + 0" | bc
+      internal_name:
+        type: string
+        default:
+          command: echo "${id}-${name}"
     run:
       - when:
-          - not-exists: ${name}
+          - not-exists: ${internal_name}
         command:
-          - exec: mkdir ${name}
-          - exec: touch ${name}/main.d
+          - exec: |
+              if grep -q "${name}:" .store ; then
+                echo "a project with name ${name} already appears in .store index." ;
+                exit 1
+              fi
+          - exec: mkdir ${internal_name}
+          - exec: touch ${internal_name}/main.d
           - exec: |-
-              cat > ${name}/main.d <<'EOF'
+              cat > ${internal_name}/main.d <<'EOF'
               import std.stdio;
 
               void main() {
                 writeln("hello from ${name}");
               }
               EOF
+          - exec: echo "${name}:${internal_name}" >> .store
 
   purge:
     args:
       name:
         type: string
 
+    options:
+      internal_id:
+        type: string
+        default:
+          command: grep "${name}" .store | cut -d ':' -f2
+
     run:
       - when:
-          - exists: ${name}
+          - exists: ${internal_id}
         command:
-          - exec: rm -rf ${name}
+          - exec: rm -rf ${internal_id}
+          - exec: grep -v "${name}" .store > .store
 
   run:
     args:
       name:
         type: string
+
+    options:
+      internal_id:
+        type: string
+        default:
+          command: grep "${name}" .store | cut -d ':' -f2
     run:
       - when:
-          - exists: ${name}
+          - exists: ${internal_id}
         command:
-          - exec: nl ${name}/*
+          - exec: nl ${internal_id}/*
           - exec: ldc2 main.d -of=.build/main
-            dir: ${name}
-          - exec: exec ${name}/.build/main
+            dir: ${internal_id}
+          - exec: exec ${internal_id}/.build/main
           - exec: echo $?
             quiet: true
