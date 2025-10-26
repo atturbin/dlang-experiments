@@ -43,8 +43,21 @@ void mutable_char_from_dup()
     debug_write("mutable_char_from_dup", copy);
 }
 
+void multiline_strings()
+{
+    string xl = q{lorem
+    ipsum dolor
+    sit amet consectuir.
+    };
+
+    debug_write("multiline_strings", xl);
+}
+
 void main()
 {
+    // classic info about strings:
+    debug_write("size: ", string.sizeof);
+
     // strings are immutable
     immutable_string();
     // you can iterate over strings as they are an alias for char[].
@@ -57,4 +70,7 @@ void main()
     // you can also use the strings.dup property to transform
     // a string to a char[].
     mutable_char_from_dup();
+
+    // multiline strings are set with %q
+    multiline_strings();
 }
