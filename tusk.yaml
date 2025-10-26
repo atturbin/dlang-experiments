@@ -43,6 +43,7 @@ tasks:
           - exec: |-
               cat > ${internal_name}/main.d <<'EOF'
               import std.stdio;
+              import helpers.xhelpers;
 
               void main() {
                 writeln("hello from ${name}");
@@ -83,8 +84,7 @@ tasks:
           - exists: ${internal_id}
         command:
           - exec: nl ${internal_id}/*
-          - exec: ldc2 main.d -of=.build/main
-            dir: ${internal_id}
+          - exec: ldc2 ${internal_id}/main.d ./helpers/xhelpers.d -of=${internal_id}/.build/main
           - exec: exec ${internal_id}/.build/main
           - exec: |
               echo "exit-code: $?"
