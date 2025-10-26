@@ -24,7 +24,7 @@ tasks:
       id:
         type: int
         default:
-          command: echo "$(find . -not -path '*/[@.]*' -type d | wc -l) + 0" | bc
+          command: echo "$(find . -not -path '*/[@.]*' -type d | wc -l) - 1" | bc
       internal_name:
         type: string
         default:
@@ -84,7 +84,7 @@ tasks:
           - exists: ${internal_id}
         command:
           - exec: nl ${internal_id}/*
-          - exec: ldc2 ${internal_id}/main.d ./helpers/xhelpers.d -of=${internal_id}/.build/main
+          - exec: ldc2 ${internal_id}/main.d ./helpers/xhelpers.d -unittest -of=${internal_id}/.build/main
           - exec: exec ${internal_id}/.build/main
           - exec: |
               echo "exit-code: $?"
