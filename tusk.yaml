@@ -86,5 +86,9 @@ tasks:
           - exec: ldc2 main.d -of=.build/main
             dir: ${internal_id}
           - exec: exec ${internal_id}/.build/main
-          - exec: echo $?
+          - exec: |
+              echo "exit-code: $?"
+            quiet: true
+          - exec: |
+              echo "size: $(du -sh ${internal_id}/.build/main)"
             quiet: true
