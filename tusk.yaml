@@ -82,10 +82,24 @@ tasks:
     run:
       - when:
           - exists: ${internal_id}
+          - not-exists: ${internal_id}/dub.json
         command:
           - exec: nl ${internal_id}/*
           - exec: ldc2 ${internal_id}/main.d ./helpers/xhelpers.d -unittest -of=${internal_id}/.build/main
           - exec: exec ${internal_id}/.build/main
+          - exec: |
+              echo "exit-code: $?"
+            quiet: true
+          - exec: |
+              echo "size: $(du -sh ${internal_id}/.build/main)"
+            quiet: true
+
+      - when:
+          - exists: ${internal_id}
+          - exists: ${internal_id}/dub.json
+        command:
+          - exec: dub run --compiler ldc2
+            dir: ${internal_id}
           - exec: |
               echo "exit-code: $?"
             quiet: true
