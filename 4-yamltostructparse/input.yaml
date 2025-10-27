@@ -1,0 +1,6 @@
+tasks:
+  - title: I should do this
+    finished: false
+
+  - title: I've done some good job here
+    finished: true

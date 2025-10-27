@@ -1,0 +1,12 @@
+{
+  "authors": ["atturbin"],
+  "copyright": "looserclub",
+  "dependencies": {
+    "dyaml": "~>0.10.0"
+  },
+  "description": "A minimal D application.",
+  "license": "4loosers",
+  "name": "4-yamltostructparse",
+  "targetPath": ".build",
+  "targetName": "main"
+}

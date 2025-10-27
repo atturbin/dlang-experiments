@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/4-yamltostructparse
+4-yamltostructparse.so
+4-yamltostructparse.dylib
+4-yamltostructparse.dll
+4-yamltostructparse.a
+4-yamltostructparse.lib
+4-yamltostructparse-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
