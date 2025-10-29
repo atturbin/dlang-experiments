@@ -1,10 +1,11 @@
 import std.stdio;
 import std.file;
+import std.array;
 import dyaml;
 
 struct Task
 {
-    char[] title;
+    dchar[] title;
     bool finished;
 }
 
@@ -21,9 +22,10 @@ int main()
     Task[] all = [];
     foreach (Node t; root["tasks"])
     {
-        char[] title = [];
-        foreach (char letter; t["title"].as!string)
-            title ~= letter;
+        dchar[] title = [];
+        // foreach (char letter; t["title"].as!string)
+        //     title ~= letter;
+        title = t["title"].as!string.array;
 
         Task x = Task(
             title,
