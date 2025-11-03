@@ -29,7 +29,7 @@ int main()
 
         Task x = Task(
             title,
-            t["finished"].as!bool
+            t["finished"].as!bool,
         );
 
         all ~= x;
