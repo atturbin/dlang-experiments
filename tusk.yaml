@@ -75,6 +75,9 @@ tasks:
         type: string
 
     options:
+      endargs:
+        type: string
+        default: ""
       internal_id:
         type: string
         default:
@@ -86,7 +89,7 @@ tasks:
         command:
           - exec: nl ${internal_id}/*
           - exec: ldc2 ${internal_id}/main.d ./helpers/xhelpers.d -unittest -of=${internal_id}/.build/main
-          - exec: exec ${internal_id}/.build/main
+          - exec: exec ${internal_id}/.build/main ${endargs}
           - exec: |
               echo "exit-code: $?"
             quiet: true
