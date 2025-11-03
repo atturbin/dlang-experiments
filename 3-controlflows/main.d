@@ -117,6 +117,42 @@ void ternary()
     debug_write("ternary", amount);
 }
 
+void while_condition() {
+    import std.string :format;
+    uint counter = 0;
+
+    while (counter < 10) {
+        writeln(format("while: %d", counter));
+
+        if (counter % 3 == 2) {
+            writeln("pair!");
+        }
+
+        if (counter > 9) {
+            break;
+        }
+        counter++;
+    }
+}
+
+void while_infinite() {
+    import std.stdio : readln;
+    string input;
+    while(input != "Q\n") {
+        debug_write("infinite", "write a letter: ");
+        input = readln();
+        debug_write("infinite", "still in the loop");
+    }
+}
+
+void do_while() {
+    int counter = 5;
+    do {
+        writeln(counter);
+        counter--;
+    } while(counter > -1);
+}
+
 void main()
 {
     writeln("hello from controlflows");
@@ -147,4 +183,7 @@ void main()
     multi_conditions;
 
     ternary;
+    while_condition;
+    while_infinite;
+    do_while;
 }
