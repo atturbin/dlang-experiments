@@ -2,3 +2,5 @@ unittests:2-unittests
 strings:1-strings
 controlflows:3-controlflows
 yamltostructparse:4-yamltostructparse
+mytasks:6-mytasks
+guestgame:7-guestgame
